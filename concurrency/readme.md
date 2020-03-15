@@ -17,3 +17,16 @@
 
 * 高并发处理：
 ![](img/知识技能.png)
+
+
+##项目准备
+###基于springboot
+###注解准备，用于标识学习中线程（不）安全，（不）推荐的类或写法
+###并发模拟工具 
+ postman  Apache Bench  JMeter  代码模拟
+###代码模拟
+CountDownLatch（计数器） Semaphore(信号量)  线程池
+
+###线程安全
+####原子性(com.wyw.concurrency.example.atomic)
+ 通过AtomicXXX实现，做自增操作时调用unsafe.getAndAddInt，进而调用compareAndSwapInt()实现，即CAS
