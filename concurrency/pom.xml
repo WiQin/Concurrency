@@ -12,5 +12,11 @@
     <groupId>com.wyw.concurrency</groupId>
     <artifactId>concurrency</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

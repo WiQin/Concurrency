@@ -28,5 +28,10 @@
 CountDownLatch（计数器） Semaphore(信号量)  线程池
 
 ###线程安全
-####原子性(com.wyw.concurrency.example.atomic)
- 通过AtomicXXX实现，做自增操作时调用unsafe.getAndAddInt，进而调用compareAndSwapInt()实现，即CAS
+####原子性
+ 1.通过AtomicXXX实现，做自增操作时调用unsafe.getAndAddInt，进而调用compareAndSwapInt()实现，即CAS
+ ((com.wyw.concurrency.example.atomic))
+ 2.锁  synchronized关键字  Lock接口（ReetrantLock）
+ 
+ ####可见性
+ volatile(做状态标记)
