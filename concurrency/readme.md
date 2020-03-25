@@ -27,11 +27,30 @@
 ###代码模拟
 CountDownLatch（计数器） Semaphore(信号量)  线程池
 
-###线程安全
-####原子性
+##线程安全性
+###原子性
  1.通过AtomicXXX实现，做自增操作时调用unsafe.getAndAddInt，进而调用compareAndSwapInt()实现，即CAS
  ((com.wyw.concurrency.example.atomic))
  2.锁  synchronized关键字  Lock接口（ReetrantLock）
  
- ####可见性
- volatile(做状态标记)
+###可见性
+volatile(做状态标记)
+ 
+##安全发布对象 
+ 
+##线程安全策略
+###不可变对象
+保证对象在多个线程间的线程安全（避免并发）
+###线程封闭  
+--把对象封装到一个线程中  
+1.Ad-hoc 线程封闭  
+2.堆栈封闭--局部变量，无并发问题  
+3.ThreadLocal线程封闭
+3.1 RequestHolder  模拟希望绑定到线程上的信息（比如用户信息）
+3.2 使用场景 
+ 3.2.1 add（）：进入到后端服务器，但是还没有进行实际业务处理时，调用该方法将相关信息写进去
+    ==>使用filter拦截相关url,当前台访问url，在filter中将相关信息写入ThreadLocal，在实际处理时从ThreadLocal中取信息（get方法）(HttpFilter)
+ 3.2.3 remove（）: 接口处理完之后 ==> interceptor(HttpInterceptor)
+3.3 需在Application启动类中定义filter与interceptor
+3.4 创建Controller模拟（ThreadLocalController）
+    
