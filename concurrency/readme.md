@@ -53,4 +53,17 @@ volatile(做状态标记)
  3.2.3 remove（）: 接口处理完之后 ==> interceptor(HttpInterceptor)
 3.3 需在Application启动类中定义filter与interceptor
 3.4 创建Controller模拟（ThreadLocalController）
+
+###线程不安全的类与写法
+1.StringBuilder   但是StringBuffer是线程安全的（方法被synchronized修饰）
+StringBuilder存在的原因：但是StringBuffer的方法在同一时间只有一个线程可以使用，性能损耗，
+可以在方法内部定义StringBuilder，由于堆栈封闭，只有单个线程可以操作，性能会有所提升，计算更快。
+2.SimpleDateFormat  ==> JodaTime
+3.ArrayList.HashSet,HashMap
+4.先检查，再执行  if(condition(a)){handle(a)}
+
+###同步容器
+1.ArrayList  -->  Vector,Stack
+2.HashMap  -->  HashTable
+3.Collection.synchronizedXXX
     
