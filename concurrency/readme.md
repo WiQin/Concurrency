@@ -66,4 +66,13 @@ StringBuilder存在的原因：但是StringBuffer的方法在同一时间只有�
 1.ArrayList  -->  Vector,Stack
 2.HashMap  -->  HashTable
 3.Collection.synchronizedXXX
-    
+
+###并发容器 J.U.C
+1.线程安全的集合
+ArrayList--CopyOnWriteArrayList  适用于读多(源数据上，不需加锁)写少(需要加锁，复制多个副本操作)的场景  慎用  读写分离，最终一致性，使用时另外开辟空间
+HashSet--CopyOnWriteArraySet  addAll  removeAll需要加锁  单个add,remove线程安全
+TreeSet--ConcurrentSkipListSet   addAll  removeAll需要加锁  单个add,remove线程安全
+
+HashMap--ConcurrentHahsMap
+
+TreeMap--ConcurrentSkipListMap
