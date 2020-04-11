@@ -76,3 +76,64 @@ TreeSet--ConcurrentSkipListSet   addAll  removeAll需要加锁  单个add,remove
 HashMap--ConcurrentHahsMap
 
 TreeMap--ConcurrentSkipListMap
+
+####同步器  AQS
+提供了基于FIFO的队列
+
+Sync queue:双向链表，同步队列（head节点,tail节点）
+Condition queue:单项链表，非必需，可能有多个
+   
+利用int类型标识状态（state变量）  
+使用方法：继承，子类通过继承并实现其方法来管理状态（acquire和release）  
+可以同时实现排它锁和共享锁模式  
+#####同步组件
+1.CountDownLatch   计数器 
+同步辅助类，可以完成阻塞当前线程的功能   使用给定的计数器进行初始化，计数器操作为原子操作  
+调用await()方法的线程处于阻塞，直到其他线程调用countdown()方法，每次调用计数器的值减一，当计数器值为0时，所有调用await方法阻塞的线程继续执行  
+计数器不会被重置，所以该操作只能执行一次  
+
+使用场景：
+程序执行需要等某个条件完成后才能进行后续操作时 如某个主任务需要等所有子任务执行完成后才能继续执行  
+支持等待指定时间，超出时间后，会执行后续程序，单线程不会立即关闭，而是等当前线程执行完毕后再关闭
+
+2.Semaphore 信号量  可控制并发访问的线程个数 
+控制某个资源可被同时访问的个数  
+方法：acquire()--获取许可，若获取不到则等待
+     release()--操作完成后释放许可
+使用场景：仅能提供有限访问的资源（数据库连接数）  
+
+3.CyclicBarrier  循环屏障  同步辅助类  
+允许一组线程相互等待，直到到达某个公共屏障点，所有线程全部准备就绪后才能各自执行后续操作
+await(): 等待，计数器加1  计数器达到初始值后，线程被唤醒，继续执行
+计数器可可以reset()方法重置，循环使用  
+
+与CountDownLatch区别：
+1).CountDownLatch不可循环
+2).CountDownLatch主要用于一个或多个线程等待其他线程的场景；CyclicBarrier用于多个线程间相互等待
+
+使用场景：多线程计算数据，最后合并计算结果
+
+4.ReentrantLock    可重复入锁
+java中锁：synchronized修饰；  JUC中提供的锁（ReentrantLock）
+
+与synchronized区别：
+1).可重入性  同一个
+2).synchronized依赖JVM实现，ReentrantLock依赖JDK实现
+3).synchronized更便利，由编译器保证加锁和释放；ReentrantLock需要手动加锁和释放
+   
+ReentrantLock独有的功能：
+1).ReentrantLock更灵活  可以指定公平锁（先等待的线程先获得锁）还是非公平锁；
+2).提供一个Condition类，可以分组唤醒需要唤醒的线程
+3).提供中断等待锁的线程的机制  lock.lockInterruptibly();  
+
+ReentrantReadWriteLock:  
+没有任何读写锁的情况下才能取得写入的锁，可用于实现悲观读取
+
+StampedLock：  版本+模式
+三种模式：写，读，乐观读（程序采取读取数据后查看是否遭到写入执行的变更，再采取后续措施）
+
+锁的使用选择：
+1.少量竞争者：synchronized
+2.竞争者不少，线程增长趋势可预估：ReentrantLock
+
+4.FutureTask

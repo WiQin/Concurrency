@@ -1,31 +1,35 @@
-package com.wyw.concurrency.example.count;
+package com.wyw.concurrency.example.lock;
 
 
-import com.wyw.concurrency.annotations.NotThreadSafe;
+import com.wyw.concurrency.annotations.ThreadSafe;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * 5000次请求加一操作
+ * ReentrantLock
  *
- * 有两百个线程并发执行，如果结果不为5000则存在线程安全问题
+ *
  *
  * @author wyw
  * @date 2020/03/14
  */
-@NotThreadSafe
+@ThreadSafe
 @Slf4j
-public class CountExamlpe1 {
+public class LockExamlpe2 {
     //1000个请求
     public static int clientTotal = 1000;
     //并发线程数
     public static int threadTotal = 50;
 
     public static int count= 0;
+
+    private final static Lock lock = new ReentrantLock();
 
 
     public static void main(String[] args) throws InterruptedException {
@@ -56,6 +60,13 @@ public class CountExamlpe1 {
     }
 
     private static void add(){
-        count++;
+        //需手动加锁与解锁
+        lock.lock();
+        try {
+            count++;
+        } finally {
+            //建议在finally中手动解锁
+            lock.unlock();
+        }
     }
 }
