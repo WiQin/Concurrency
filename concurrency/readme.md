@@ -137,3 +137,8 @@ StampedLock：  版本+模式
 2.竞争者不少，线程增长趋势可预估：ReentrantLock
 
 4.FutureTask
+
+###线程池
+通过new Thread胡方法创建线程存在弊端
+
+####ThreadPoolExecutor
