@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>concurrency</module>
+        <module>high_concurrency</module>
     </modules>
 
     <name>Concurrency</name>
